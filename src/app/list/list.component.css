@@ -1,0 +1,19 @@
+.btn {
+  margin-top: 15px;
+}
+.table {
+  text-align: center;
+}
+
+th {
+  white-space: nowrap;
+}
+
+.pagination {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.uparr {
+  margin-right: 5px;
+}

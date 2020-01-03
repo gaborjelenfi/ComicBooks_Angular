@@ -1,0 +1,12 @@
+.container
+ {
+   margin-top: 25px;
+ }
+
+ input.ng-invalid.ng-touched {
+   border: 1px solid red;
+ }
+
+h2 {
+  margin-top: 50px;
+}

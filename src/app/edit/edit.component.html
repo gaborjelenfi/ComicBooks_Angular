@@ -1,0 +1,137 @@
+<div class="row justify-content-center">
+  <h2 *ngIf="!comic">Please select from the list to edit</h2>
+</div>
+<div *ngIf="comic">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+        <form #f='ngForm'>
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="name"
+              placeholder="Comic Book's Name"
+              name="name"
+              #name="ngModel"
+              [(ngModel)]="comic.name"
+              maxlength="255"
+              minlength="10"
+              required
+            />
+            <span class="help-block" *ngIf="!name.valid && name.touched"
+              >Please enter a valid name minimum 10 characters and maximum 255</span
+            >
+          </div>
+          <div class="form-group">
+            <label for="name">Image Url</label>
+            <input
+              type="text"
+              class="form-control"
+              id="imgUrl"
+              placeholder="Cover image url"
+              pattern="https?://.+"
+              name="imgUrl"
+              #imgUrl="ngModel"
+              [(ngModel)]="comic.imagePath"
+              required
+            />
+            <span class="help-block" *ngIf="!imgUrl.valid && imgUrl.touched"
+              >Please enter a valid image url path</span
+            >
+            <img [src]="imgUrl.value" alt="cover image" *ngIf="imgUrl.valid" style="max-height: 200px;" />
+          </div>
+          <div class="form-group">
+            <label for="date">Publication Date</label>
+            <div class="form-group date">
+              <input
+                type="date"
+                class="form-control"
+                id="publication"
+                name="publication"
+                #publication="ngModel"
+                [(ngModel)]="comic.publicationDate"
+                required
+              />
+              <span class="help-block" *ngIf="!publication.valid && publication.touched"
+                >Please choose a publication date</span
+              >
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="genre">Genre</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Genre"
+              name="genre"
+              [(ngModel)]="comic.genre"
+            />
+          </div>
+          <div class="form-group">
+            <label for="excerpt">Excerpt</label>
+            <textarea
+              class="form-control"
+              cols="30"
+              rows="2"
+              placeholder="Excerption from the comic book..."
+              name="excerpt"
+              [(ngModel)]="comic.excerpt"
+              maxlength="190"
+            ></textarea>
+          </div>
+          <div class="form-group">
+            <label for="writtenBy">Written By</label>
+            <ng-multiselect-dropdown
+              [data]="dropdownList"
+              [settings]="dropdownSettings"
+              id="writtenBy"
+              name="writtenBy"
+              #writtenBy="ngModel"
+              [(ngModel)]="comic.writtenBy"
+              required
+            ></ng-multiselect-dropdown>
+            <span class="help-block" *ngIf="!writtenBy.valid"
+              >Please select minimum 1 creator</span
+            >
+          </div>
+          <div class="form-group">
+            <label for="publisher">Publisher</label>
+            <select
+              name="publisher"
+              [(ngModel)]="comic.publisher"
+              class="form-control">
+              <option
+                *ngFor="let publisher of publishers"
+                [value]="publisher"
+                >
+                {{ publisher }}
+              </option>
+            </select>
+          </div>
+          <div class="container" style="margin-bottom: 20px;">
+            <div class="row">
+              <button
+                type="button"
+                class="btn btn-success btn-lg"
+                [disabled]="!f.valid"
+                (click)="onUpdate()"
+              >
+                Update
+              </button>
+              <button
+              type="button"
+              class="btn btn-warning btn-lg"
+              style="margin-left: auto;"
+              (click)="onCancel()"
+            >
+              Cancel
+            </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
