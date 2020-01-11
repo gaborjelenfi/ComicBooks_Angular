@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ComicList } from './list.model';
 import { Subject } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class ListService {
@@ -8,6 +9,7 @@ export class ListService {
   selectedComic: number;
   indexOfSelectedComic: number;
 
+  constructor(private http: HttpClient) {}
 
   private comics: ComicList[] = [];
 
@@ -34,7 +36,9 @@ export class ListService {
   }
 
   getSelectedComic() {
-    return JSON.parse(localStorage.getItem(this.selectedComic.toString()));
+    if (this.selectedComic) {
+      return JSON.parse(localStorage.getItem(this.selectedComic.toString()));
+    }
   }
 
   deleteComicBook(index: number, id: number) {

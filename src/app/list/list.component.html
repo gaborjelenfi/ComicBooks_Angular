@@ -67,7 +67,7 @@
                 style="max-height: 100px;"
               />
             </td>
-            <td>{{ item.publicationDate | date }}</td>
+            <td>{{ item.publicationDate }}</td>
             <td>{{ item.genre }}</td>
             <td>{{ item.excerpt }}</td>
             <td><span *ngFor="let who of item.writtenBy"><br>{{ who.text }}</span></td>
