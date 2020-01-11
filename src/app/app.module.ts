@@ -15,6 +15,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { ListService } from './list/list.service';
 import { FormsModule } from '@angular/forms';
 import { CreateService } from './create/create.service';
+import { EmptyEditComponent } from './empty-edit/empty-edit.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { CreateService } from './create/create.service';
     NavComponent,
     ListComponent,
     CreateComponent,
-    EditComponent
+    EditComponent,
+    EmptyEditComponent
   ],
   imports: [
     BrowserModule,

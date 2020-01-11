@@ -3,12 +3,13 @@ import { Routes, RouterModule } from '@angular/router';
 import { ListComponent } from './list/list.component';
 import { CreateComponent } from './create/create.component';
 import { EditComponent } from './edit/edit.component';
+import { EmptyEditComponent } from './empty-edit/empty-edit.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/list', pathMatch: 'full' },
   { path: 'list', component: ListComponent },
   { path: 'create', component: CreateComponent },
-  { path: 'edit', component: EditComponent },
+  { path: 'edit', component: EmptyEditComponent },
   { path: 'edit/:id', component: EditComponent }
 ];
 
