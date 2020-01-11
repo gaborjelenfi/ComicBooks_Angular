@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ListService } from '../list/list.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ComicBook } from '../list/comic-book.model';
 import { CreateService } from '../create/create.service';
 import { NgForm } from '@angular/forms';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-edit',
@@ -20,8 +21,8 @@ export class EditComponent implements OnInit {
   selected: boolean;
 
   constructor(private listService: ListService,
-              private router: Router,
               private route: ActivatedRoute,
+              private location: Location,
               private createService: CreateService) { }
 
   ngOnInit() {
@@ -37,13 +38,12 @@ export class EditComponent implements OnInit {
   }
 
   onUpdate() {
-    this.listService.updateComicBook(this.listService.indexOfSelectedComic, this.listService.selectedComic, this.comicBook);
-    this.onCancel();
+    this.listService.updateComicBook(this.comicBook)
+      .subscribe(() => this.onCancel());
   }
 
   onCancel() {
-    this.router.navigate(['list']);
-    this.listService.selectedComic = -1;
+    this.location.back();
   }
 
 }

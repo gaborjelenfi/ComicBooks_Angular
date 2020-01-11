@@ -30,8 +30,9 @@ export class ListComponent implements OnInit {
     this.router.navigate(['create']);
   }
 
-  onDeleteComic(index: number, id: number) {
-    this.listService.deleteComicBook(index, id);
+  onDeleteComic(comicBook: ComicBook): void {
+    this.comicBooks = this.comicBooks.filter(c => c !== comicBook);
+    this.listService.deleteComicBook(comicBook).subscribe();
   }
 
   ///////////////////////////////

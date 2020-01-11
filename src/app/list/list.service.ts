@@ -38,12 +38,19 @@ export class ListService {
     );
   }
 
-  updateComicBook(index: number, id: number, newComicBook: ComicBook) {
-
+  updateComicBook(comicBook: ComicBook): Observable<any> {
+    return this.http.put(this.listUrl, comicBook, this.httpOptions).pipe(
+      catchError(this.handleError<any>('updateComicBook'))
+    );
   }
 
-  deleteComicBook(index: number, id: number) {
+  deleteComicBook(comicBook: ComicBook | number ): Observable<ComicBook> {
+    const id = typeof comicBook === 'number' ? comicBook : comicBook.id;
+    const url = `${this.listUrl}/${id}`;
 
+    return this.http.delete<ComicBook>(url, this.httpOptions).pipe(
+      catchError(this.handleError<ComicBook>('deleteComicBook'))
+    );
   }
 
 

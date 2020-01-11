@@ -18,7 +18,7 @@ export class InMemoryDataService implements InMemoryDbService {
         excerpt: 'Some text about this Comic Book...',
         writtenBy: [{ id: 1, text: 'Jim Starlin' },
                     { id: 2, text: 'Alan Davis' }],
-        publisher: 'Marvel comics'
+        publisher: 'Marvel Comics'
       }
 
     ];
