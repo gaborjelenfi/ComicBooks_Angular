@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ComicBook } from './comic-book.model';
-import { Subject, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 
@@ -10,13 +10,10 @@ export class ListService {
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json'})
   };
-  comicsChanged = new Subject<ComicBook[]>();
   selectedComic: number;
   indexOfSelectedComic: number;
 
   constructor(private http: HttpClient) {}
-
-  private comics: ComicBook[] = [];
 
   getAllComics(): Observable<ComicBook[]> {
       return this.http.get<ComicBook[]>(this.listUrl)
@@ -52,7 +49,6 @@ export class ListService {
       catchError(this.handleError<ComicBook>('deleteComicBook'))
     );
   }
-
 
   /**
    * Handle Http operation that failed.
