@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ListService } from '../list/list.service';
 
 @Component({
   selector: 'app-nav',

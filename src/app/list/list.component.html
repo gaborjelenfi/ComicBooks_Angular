@@ -13,70 +13,132 @@
         <thead>
           <tr>
             <th scope="col"></th>
-            <th scope="col">ID
-              <button class="btn badge badge-dark uparr" (click)="sortByID()">&uarr;</button>
-              <button class="btn badge badge-dark" (click)="reverseByID()">&darr;</button>
+            <th scope="col">
+              ID
+              <button class="btn badge badge-dark uparr" (click)="sortByID()">
+                &uarr;
+              </button>
+              <button class="btn badge badge-dark" (click)="reverseByID()">
+                &darr;
+              </button>
             </th>
-            <th scope="col">Name
-              <button class="btn badge badge-dark uparr" (click)="sortByName()">&uarr;</button>
-              <button class="btn badge badge-dark" (click)="reverseByName()">&darr;</button>
+            <th scope="col">
+              Name
+              <button class="btn badge badge-dark uparr" (click)="sortByName()">
+                &uarr;
+              </button>
+              <button class="btn badge badge-dark" (click)="reverseByName()">
+                &darr;
+              </button>
             </th>
-            <th scope="col">Image
+            <th scope="col">Image</th>
+            <th scope="col">
+              Publication Date
+              <button class="btn badge badge-dark uparr" (click)="sortByDate()">
+                &uarr;
+              </button>
+              <button class="btn badge badge-dark" (click)="reverseByDate()">
+                &darr;
+              </button>
             </th>
-            <th scope="col">Publication Date
-              <button class="btn badge badge-dark uparr" (click)="sortByDate()">&uarr;</button>
-              <button class="btn badge badge-dark" (click)="reverseByDate()">&darr;</button>
+            <th scope="col">
+              Genre
+              <button
+                class="btn badge badge-dark uparr"
+                (click)="sortByGenre()"
+              >
+                &uarr;
+              </button>
+              <button class="btn badge badge-dark" (click)="reverseByGenre()">
+                &darr;
+              </button>
             </th>
-            <th scope="col">Genre
-              <button class="btn badge badge-dark uparr" (click)="sortByGenre()">&uarr;</button>
-              <button class="btn badge badge-dark" (click)="reverseByGenre()">&darr;</button>
+            <th scope="col">
+              Excerpt
+              <button
+                class="btn badge badge-dark uparr"
+                (click)="sortByExcerpt()"
+              >
+                &uarr;
+              </button>
+              <button class="btn badge badge-dark" (click)="reverseByExcerpt()">
+                &darr;
+              </button>
             </th>
-            <th scope="col">Excerpt
-              <button class="btn badge badge-dark uparr" (click)="sortByExcerpt()">&uarr;</button>
-              <button class="btn badge badge-dark" (click)="reverseByExcerpt()">&darr;</button>
+            <th scope="col">
+              Written By
+              <button
+                class="btn badge badge-dark uparr"
+                (click)="sortByWrittenBy()"
+              >
+                &uarr;
+              </button>
+              <button
+                class="btn badge badge-dark"
+                (click)="reverseByWrittenBy()"
+              >
+                &darr;
+              </button>
             </th>
-            <th scope="col">Written By
-              <button class="btn badge badge-dark uparr" (click)="sortByWrittenBy()">&uarr;</button>
-              <button class="btn badge badge-dark" (click)="reverseByWrittenBy()">&darr;</button>
-            </th>
-            <th scope="col">Publisher
-              <button class="btn badge badge-dark uparr" (click)="sortByPublisher()">&uarr;</button>
-              <button class="btn badge badge-dark" (click)="reverseByPublisher()">&darr;</button>
+            <th scope="col">
+              Publisher
+              <button
+                class="btn badge badge-dark uparr"
+                (click)="sortByPublisher()"
+              >
+                &uarr;
+              </button>
+              <button
+                class="btn badge badge-dark"
+                (click)="reverseByPublisher()"
+              >
+                &darr;
+              </button>
             </th>
             <th></th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of comics | slice: (page-1) * pageSize: (page-1) * pageSize + pageSize; let i = index">
+          <tr
+            *ngFor="
+              let comicBook of comicBooks
+                | slice: (page - 1) * pageSize:(page - 1) * pageSize + pageSize;
+              let i = index
+            "
+          >
             <td>
               <button
                 type="button"
                 class="btn btn-info"
-                (click)="onSelected(i + (pageSize * (page-1)), item.id)"
+                routerLink="/edit/{{ comicBook.id }}"
               >
                 Edit
               </button>
             </td>
-            <th scope="row">{{ item.id }}</th>
-            <td>{{ item.name }}</td>
+            <th scope="row">{{ comicBook.id }}</th>
+            <td>{{ comicBook.name }}</td>
             <td>
               <img
-                src="{{ item.imagePath }}"
-                alt="{{ item.name }}"
+                src="{{ comicBook.imagePath }}"
+                alt="{{ comicBook.name }}"
                 class="img-responsive"
                 style="max-height: 100px;"
               />
             </td>
-            <td>{{ item.publicationDate }}</td>
-            <td>{{ item.genre }}</td>
-            <td>{{ item.excerpt }}</td>
-            <td><span *ngFor="let who of item.writtenBy"><br>{{ who.text }}</span></td>
-            <td>{{ item.publisher }}</td>
+            <td>{{ comicBook.publicationDate | date }}</td>
+            <td>{{ comicBook.genre }}</td>
+            <td>{{ comicBook.excerpt }}</td>
+            <td>
+              <span *ngFor="let who of comicBook.writtenBy"
+                ><br />{{ who.text }}</span
+              >
+            </td>
+            <td>{{ comicBook.publisher }}</td>
             <td>
               <button
                 type="button"
                 class="btn btn-danger"
-                (click)="onDeleteComic(i + (pageSize * (page-1)), item.id)"
+                (click)="onDeleteComic(i + pageSize * (page - 1), comicBook.id)"
               >
                 X
               </button>
@@ -85,8 +147,9 @@
         </tbody>
       </table>
     </div>
-    <ngb-pagination [collectionSize]="comics.length" [(page)]="page"></ngb-pagination>
+    <ngb-pagination
+      [collectionSize]="comicBooks.length"
+      [(page)]="page"
+    ></ngb-pagination>
   </div>
 </div>
-
-

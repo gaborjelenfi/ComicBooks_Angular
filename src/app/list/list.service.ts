@@ -1,52 +1,68 @@
 import { Injectable } from '@angular/core';
-import { ComicList } from './list.model';
-import { Subject } from 'rxjs';
+import { ComicBook } from './comic-book.model';
+import { Subject, Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class ListService {
-  comicsChanged = new Subject<ComicList[]>();
+  private listUrl = 'api/comicBooks'; // URL to web api
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json'})
+  };
+  comicsChanged = new Subject<ComicBook[]>();
   selectedComic: number;
   indexOfSelectedComic: number;
 
   constructor(private http: HttpClient) {}
 
-  private comics: ComicList[] = [];
+  private comics: ComicBook[] = [];
 
-  addComicBook(comicBook: ComicList) {
-    this.comics.push(comicBook);
-    this.comicsChanged.next(this.comics.slice());
-    localStorage.setItem(comicBook.id.toString(), JSON.stringify(comicBook));
+  getAllComics(): Observable<ComicBook[]> {
+      return this.http.get<ComicBook[]>(this.listUrl)
+        .pipe(
+          catchError(this.handleError<ComicBook[]>('getComicBooks', []))
+        );
   }
 
-  updateComicBook(index: number, id: number, newComicBook: ComicList) {
-    localStorage.setItem(id.toString(), JSON.stringify(newComicBook));
-    this.comics[index] = newComicBook;
-    this.comicsChanged.next(this.comics.slice());
+  getComicBook(id: number): Observable<ComicBook> {
+    const url = `${this.listUrl}/${id}`;
+    return this.http.get<ComicBook>(url).pipe(
+      catchError(this.handleError<ComicBook>(`getComicBook id=${id}`))
+    );
   }
 
-  getAllComics() {
-    const comicsStorage: ComicList[] = [];
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      const item = JSON.parse(localStorage.getItem(key));
-      comicsStorage.push(item);
-    }
-    return comicsStorage.slice();
+  addComicBook(comicBook: ComicBook): Observable<ComicBook> {
+    return this.http.post<ComicBook>(this.listUrl, comicBook, this.httpOptions).pipe(
+      catchError(this.handleError<ComicBook>('addComicBook'))
+    );
   }
 
-  getSelectedComic() {
-    if (this.selectedComic) {
-      return JSON.parse(localStorage.getItem(this.selectedComic.toString()));
-    }
+  updateComicBook(index: number, id: number, newComicBook: ComicBook) {
+
   }
 
   deleteComicBook(index: number, id: number) {
-    this.comics.splice(index, 1);
-    localStorage.removeItem(id.toString());
-    this.comicsChanged.next(this.comics.slice());
-    console.log(this.comics);
+
   }
 
 
+  /**
+   * Handle Http operation that failed.
+   * Let the app continue.
+   * @param operation - name of the operation that failed
+   * @param result - optional value to return as the observable result
+   */
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+
+      // TODO: send the error to remote logging infrastructure
+      console.error(error); // log to console instead
+
+      console.log(`${operation} failed: ${error.message}`);
+
+      // Let the app keep running by returning an empty result.
+      return of(result as T);
+    };
+  }
 }

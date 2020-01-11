@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { ListService } from '../list/list.service';
-import { Router } from '@angular/router';
-import { ComicList } from '../list/list.model';
+import { Router, ActivatedRoute } from '@angular/router';
+import { ComicBook } from '../list/comic-book.model';
 import { CreateService } from '../create/create.service';
 import { NgForm } from '@angular/forms';
 
@@ -12,7 +12,7 @@ import { NgForm } from '@angular/forms';
 })
 export class EditComponent implements OnInit {
   @ViewChild('f', {static: false}) createForm: NgForm;
-  comic: ComicList;
+  comicBook: ComicBook;
   publishers = ['', '215 Ink', 'Abacus Comics', 'Disney Comics', 'DC Comics', 'Marvel Comics'];
   selectedItems = [];
   dropdownList = [];
@@ -21,16 +21,23 @@ export class EditComponent implements OnInit {
 
   constructor(private listService: ListService,
               private router: Router,
+              private route: ActivatedRoute,
               private createService: CreateService) { }
 
   ngOnInit() {
-    this.comic = this.listService.getSelectedComic();
+    this.getComicBook();
     this.dropdownList = this.createService.getDropdownList();
     this.dropdownSettings = this.createService.getDropdownSettings();
   }
 
+  getComicBook(): void {
+    const id = +this.route.snapshot.paramMap.get('id');
+    this.listService.getComicBook(id)
+      .subscribe(comicBook => this.comicBook = comicBook);
+  }
+
   onUpdate() {
-    this.listService.updateComicBook(this.listService.indexOfSelectedComic, this.listService.selectedComic, this.comic);
+    this.listService.updateComicBook(this.listService.indexOfSelectedComic, this.listService.selectedComic, this.comicBook);
     this.onCancel();
   }
 

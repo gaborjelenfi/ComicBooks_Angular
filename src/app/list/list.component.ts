@@ -1,53 +1,44 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ComicList } from './list.model';
+import { Component, OnInit } from '@angular/core';
+import { ComicBook } from './comic-book.model';
 import { ListService } from './list.service';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.css']
 })
-export class ListComponent implements OnInit, OnDestroy {
-  comics: ComicList[];
+export class ListComponent implements OnInit {
+  comicBooks: ComicBook[] = [];
   page = 1;
   pageSize = 10;
-  subscription = Subscription;
   tableHead = ['id', 'Name', 'Image', 'Publication Date', 'Genre', 'Excerpt', 'Written By', 'Publisher'];
 
   constructor(private listService: ListService,
               private router: Router) { }
 
   ngOnInit() {
-    this.listService.comicsChanged.subscribe((comics: ComicList[]) => {
-      this.comics = comics;
-    });
-    this.comics = this.listService.getAllComics();
+    this.getAllComics();
+  }
+
+  getAllComics() {
+    this.listService.getAllComics()
+      .subscribe(comics => this.comicBooks = comics);
   }
 
   addNewBtn() {
     this.router.navigate(['create']);
   }
 
-  ngOnDestroy() {
-  }
-
   onDeleteComic(index: number, id: number) {
     this.listService.deleteComicBook(index, id);
-  }
-
-  onSelected(index: number, id: number) {
-    this.listService.selectedComic = id;
-    this.listService.indexOfSelectedComic = index;
-    this.router.navigate(['edit']);
   }
 
   ///////////////////////////////
   // SORTENING
   //////////////////////////////
   sortByID() {
-    return this.comics.sort((a, b) => a.id - b.id);
+    return this.comicBooks.sort((a, b) => a.id - b.id);
   }
 
   reverseByID() {
@@ -55,7 +46,7 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   sortByName() {
-    return this.comics.sort((a, b) => this.sorteningText(a.name, b.name));
+    return this.comicBooks.sort((a, b) => this.sorteningText(a.name, b.name));
   }
 
   reverseByName() {
@@ -63,7 +54,7 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   sortByDate() {
-    return this.comics.sort((a, b) => +b.publicationDate - +a.publicationDate);
+    return this.comicBooks.sort((a, b) => +b.publicationDate - +a.publicationDate);
   }
 
   reverseByDate() {
@@ -71,7 +62,7 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   sortByGenre() {
-    return this.comics.sort((a, b) => this.sorteningText(a.genre, b.genre));
+    return this.comicBooks.sort((a, b) => this.sorteningText(a.genre, b.genre));
   }
 
   reverseByGenre() {
@@ -79,7 +70,7 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   sortByExcerpt() {
-    return this.comics.sort((a, b) => this.sorteningText(a.excerpt, b.excerpt));
+    return this.comicBooks.sort((a, b) => this.sorteningText(a.excerpt, b.excerpt));
   }
 
   reverseByExcerpt() {
@@ -87,7 +78,7 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   sortByWrittenBy() {
-    return this.comics.sort((a, b) => {
+    return this.comicBooks.sort((a, b) => {
       const arr1 = a.writtenBy.sort((text1, text2) => (text1.text > text2.text) ? 1 : ((text2.text > text1.text) ? -1 : 0));
       const arr2 = b.writtenBy.sort((text1, text2) => (text1.text > text2.text) ? 1 : ((text2.text > text1.text) ? -1 : 0));
 
@@ -101,7 +92,7 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   reverseByWrittenBy() {
-    return this.comics.sort((a, b) => {
+    return this.comicBooks.sort((a, b) => {
       const arr1 = a.writtenBy.sort((text1, text2) => (text1.text > text2.text) ? 1 : ((text2.text > text1.text) ? -1 : 0)).reverse();
       const arr2 = b.writtenBy.sort((text1, text2) => (text1.text > text2.text) ? 1 : ((text2.text > text1.text) ? -1 : 0)).reverse();
 
@@ -115,7 +106,7 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   sortByPublisher() {
-    return this.comics.sort((a, b) => this.sorteningText(a.publisher, b.publisher));
+    return this.comicBooks.sort((a, b) => this.sorteningText(a.publisher, b.publisher));
   }
 
   reverseByPublisher() {

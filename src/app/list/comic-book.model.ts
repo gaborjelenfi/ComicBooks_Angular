@@ -1,4 +1,4 @@
-export class ComicList {
+export class ComicBook {
   public id: number;
   public name: string;
   public imagePath: string;

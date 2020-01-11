@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
-  <h2 *ngIf="!comic">Please select from the list to edit</h2>
+  <h2 *ngIf="!comicBook">Please select from the list to edit</h2>
 </div>
-<div *ngIf="comic">
+<div *ngIf="comicBook">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
@@ -15,7 +15,7 @@
               placeholder="Comic Book's Name"
               name="name"
               #name="ngModel"
-              [(ngModel)]="comic.name"
+              [(ngModel)]="comicBook.name"
               maxlength="255"
               minlength="10"
               required
@@ -34,7 +34,7 @@
               pattern="https?://.+"
               name="imgUrl"
               #imgUrl="ngModel"
-              [(ngModel)]="comic.imagePath"
+              [(ngModel)]="comicBook.imagePath"
               required
             />
             <span class="help-block" *ngIf="!imgUrl.valid && imgUrl.touched"
@@ -51,7 +51,7 @@
                 id="publication"
                 name="publication"
                 #publication="ngModel"
-                [(ngModel)]="comic.publicationDate"
+                [(ngModel)]="comicBook.publicationDate"
                 required
               />
               <span class="help-block" *ngIf="!publication.valid && publication.touched"
@@ -66,7 +66,7 @@
               class="form-control"
               placeholder="Genre"
               name="genre"
-              [(ngModel)]="comic.genre"
+              [(ngModel)]="comicBook.genre"
             />
           </div>
           <div class="form-group">
@@ -77,7 +77,7 @@
               rows="2"
               placeholder="Excerption from the comic book..."
               name="excerpt"
-              [(ngModel)]="comic.excerpt"
+              [(ngModel)]="comicBook.excerpt"
               maxlength="190"
             ></textarea>
           </div>
@@ -89,7 +89,7 @@
               id="writtenBy"
               name="writtenBy"
               #writtenBy="ngModel"
-              [(ngModel)]="comic.writtenBy"
+              [(ngModel)]="comicBook.writtenBy"
               required
             ></ng-multiselect-dropdown>
             <span class="help-block" *ngIf="!writtenBy.valid"
@@ -100,7 +100,7 @@
             <label for="publisher">Publisher</label>
             <select
               name="publisher"
-              [(ngModel)]="comic.publisher"
+              [(ngModel)]="comicBook.publisher"
               class="form-control">
               <option
                 *ngFor="let publisher of publishers"

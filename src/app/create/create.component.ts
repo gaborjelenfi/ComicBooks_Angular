@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { FormControl, Validators, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ComicList } from '../list/list.model';
+import { ComicBook } from '../list/comic-book.model';
 import { ListService } from '../list/list.service';
 import { CreateService } from './create.service';
 
@@ -12,7 +12,7 @@ import { CreateService } from './create.service';
 })
 export class CreateComponent implements OnInit {
   @ViewChild('f', {static: false}) createForm: NgForm;
-  comic: ComicList;
+  comic: ComicBook;
   publishers = [' ', '215 Ink', 'Abacus Comics', 'Disney Comics', 'DC Comics', 'Marvel Comics'];
   dropdownList = [];
   selectedItems = [];
@@ -34,7 +34,7 @@ export class CreateComponent implements OnInit {
 
   onSubmit() {
 
-    const newComicBook = new ComicList(
+    const newComicBook = new ComicBook(
       +Date.now(),
       this.createForm.value.name,
       this.createForm.value.imgUrl,
@@ -44,10 +44,9 @@ export class CreateComponent implements OnInit {
       this.createForm.value.writtenBy,
       this.createForm.value.publisher
     );
-    this.listService.addComicBook(newComicBook);
+    this.listService.addComicBook(newComicBook).subscribe();
     this.createForm.reset();
     this.onCancel();
-    console.log(newComicBook);
 
   }
 
