@@ -13,17 +13,16 @@ import { CreateService } from './create.service';
 export class CreateComponent implements OnInit {
   @ViewChild('f', {static: false}) createForm: NgForm;
   comic: ComicBook;
-  publishers = [' ', '215 Ink', 'Abacus Comics', 'Disney Comics', 'DC Comics', 'Marvel Comics'];
+  publishers = [];
   dropdownList = [];
-  selectedItems = [];
   dropdownSettings = {};
-  selectedElementsArr;
 
   constructor(private router: Router,
               private listService: ListService,
               private createService: CreateService) {}
 
   ngOnInit() {
+    this.publishers = this.createService.getPublishers();
     this.dropdownList = this.createService.getDropdownList();
     this.dropdownSettings = this.createService.getDropdownSettings();
   }

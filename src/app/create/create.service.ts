@@ -25,7 +25,7 @@ export class CreateService {
     allowSearchFilter: true,
   };
 
-  selectedItems = [];
+  publishers =  ['', '215 Ink', 'Abacus Comics', 'Disney Comics', 'DC Comics', 'Marvel Comics'];
 
   getDropdownList() {
     return this.dropdownList;
@@ -33,6 +33,10 @@ export class CreateService {
 
   getDropdownSettings() {
     return this.dropdownSettings;
+  }
+
+  getPublishers() {
+    return this.publishers;
   }
 
 }

@@ -14,11 +14,9 @@ import { Location } from '@angular/common';
 export class EditComponent implements OnInit {
   @ViewChild('f', {static: false}) createForm: NgForm;
   comicBook: ComicBook;
-  publishers = ['', '215 Ink', 'Abacus Comics', 'Disney Comics', 'DC Comics', 'Marvel Comics'];
-  selectedItems = [];
+  publishers =  [];
   dropdownList = [];
   dropdownSettings = {};
-  selected: boolean;
 
   constructor(private listService: ListService,
               private route: ActivatedRoute,
@@ -27,6 +25,7 @@ export class EditComponent implements OnInit {
 
   ngOnInit() {
     this.getComicBook();
+    this.publishers = this.createService.getPublishers();
     this.dropdownList = this.createService.getDropdownList();
     this.dropdownSettings = this.createService.getDropdownSettings();
   }
