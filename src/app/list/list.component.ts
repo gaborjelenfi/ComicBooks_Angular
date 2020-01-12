@@ -55,7 +55,7 @@ export class ListComponent implements OnInit {
   }
 
   sortByDate() {
-    return this.comicBooks.sort((a, b) => +b.publicationDate - +a.publicationDate);
+    return this.comicBooks.sort((a, b) => +new Date(b.publicationDate) - +new Date(a.publicationDate));
   }
 
   reverseByDate() {
