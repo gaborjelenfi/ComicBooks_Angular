@@ -63,6 +63,7 @@
             class="form-control"
             placeholder="Genre"
             name="genre"
+            #genre="ngModel"
             ngModel
           />
         </div>
@@ -74,6 +75,7 @@
             rows="2"
             placeholder="Excerption from the comic book..."
             name="excerpt"
+            #excerpt="ngModel"
             ngModel
             maxlength="190"
           ></textarea>
@@ -97,6 +99,7 @@
           <label for="publisher">Publisher</label>
           <select
             name="publisher"
+            #publisher="ngModel"
             ngModel
             class="form-control">
             <option
