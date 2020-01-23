@@ -10,8 +10,6 @@ export class ListService {
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json'})
   };
-  selectedComic: number;
-  indexOfSelectedComic: number;
 
   constructor(private http: HttpClient) {}
 

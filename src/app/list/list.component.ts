@@ -35,9 +35,6 @@ export class ListComponent implements OnInit {
     this.listService.deleteComicBook(comicBook).subscribe();
   }
 
-  ///////////////////////////////
-  // SORTENING
-  //////////////////////////////
   sortByID() {
     return this.comicBooks.sort((a, b) => a.id - b.id);
   }
